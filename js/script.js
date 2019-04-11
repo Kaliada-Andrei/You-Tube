@@ -52,7 +52,7 @@ function switchMode(){
 
         nightMode.style.color = "#fff";
 
-        logo.src = "../logo/youtube_night.svg";
+        logo.src = "/logo/youtube_night.svg";
     } else{
         document.body.classList.remove('night');
         night = false;
@@ -77,6 +77,44 @@ function switchMode(){
 switcher.addEventListener('change', switchMode);
 
 bindSlideToggle('.hamburger','[data-slide="nav"]','.header__menu','slide-active');
+
+
+const data = [
+    ['img/thumb_3.webp', 'img/thumb_4.webp', 'img/thumb_5.webp'],
+    ['#3 Верстка на flexbox CSS | Блок преимущества и галерея | Марафон верстки | Артем Исламов',
+       '#2 Установка spikmi и работа с ветками на Github | Марафон вёрстки Урок 2',
+       '#1 Верстка реального заказа landing page | Марафон верстки | Артем Исламов'],
+    ['3,6 тыс. просмотров', '4,2 тыс. просмотров', '28 тыс. просмотров'],
+    ['X9SmcY3lM-U', '7BvHoh0BrMw', 'mC8JW_aG2EM']
+  ];
+  
+  
+  
+more.addEventListener('click', () => {
+    const videosWrapper = document.querySelector('.videos__wrapper');
+    more.remove();
+
+    for(let i = 0; i<data[0].length; i++){
+        let card = document.createElement('a');
+        card.classList.add('videos__item', 'videos__item-active');
+        card.setAttribute('data-url', data[3][i]);
+        card.innerHTML = `
+            <img src="${data[0][i]}" alt="thumb">
+            <div class="videos__item-descr">
+                ${data[1][i]}
+            </div>
+            <div class="videos__item-views">
+                ${data[2][i]}
+            </div>
+        `
+
+        videosWrapper.appendChild(card);
+        setTimeout(() =>{
+            card.classList.remove('videos__item-active');
+        },10);
+        
+    }
+});
 
 
 
