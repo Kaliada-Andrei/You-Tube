@@ -3,7 +3,7 @@ const switcher = document.querySelector('#cbx'),
       modal = document.querySelector('.modal'),
       videos = document.querySelectorAll('.videos__item'),
       svg = document.querySelectorAll(".hamburger > line"),
-      descr = document.querySelectorAll('.videos__item-descr'),
+      videosDescr = document.querySelectorAll('.videos__item-descr'),
       views = document.querySelectorAll('.videos__item-views'),
       nightMode = document.querySelector('.header__item-descr'),
       logo = document.querySelector('.logo > img');
@@ -43,7 +43,7 @@ function switchMode(){
         svg.forEach( item => {
             item.style.stroke = "#fff";
         });
-        descr.forEach( item => {
+        videosDescr.forEach( item => {
             item.style.color = "#fff";
         });
         views.forEach( item => {
@@ -59,7 +59,7 @@ function switchMode(){
         svg.forEach( item => {
             item.style.stroke = "#000";
         });
-        descr.forEach( item => {
+        videosDescr.forEach( item => {
             item.style.color = "#000";
         });
         views.forEach( item => {
@@ -115,6 +115,23 @@ more.addEventListener('click', () => {
         
     }
 });
+
+
+function sliseTitle(selector, count){
+    document.querySelectorAll(selector).forEach( item => {
+        item.textContent.trim();
+
+        if(item.textContent.length < count){
+            return;
+        }else{
+            let str = item.textContent.slice(0, count + 1) + '...';
+            item.textContent = str;
+        }
+    });
+};
+
+sliseTitle(".videos__item-descr", 100);
+
 
 
 
