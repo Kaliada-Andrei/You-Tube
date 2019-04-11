@@ -1,9 +1,16 @@
 const switcher = document.querySelector('#cbx'),
       more = document.querySelector('.more'),
       modal = document.querySelector('.modal'),
-      videos = document.querySelectorAll('.videos__item');
+      videos = document.querySelectorAll('.videos__item'),
+      svg = document.querySelectorAll(".hamburger > line"),
+      descr = document.querySelectorAll('.videos__item-descr'),
+      views = document.querySelectorAll('.videos__item-views'),
+      nightMode = document.querySelector('.header__item-descr'),
+      logo = document.querySelector('.logo > img');
+      
 
-let player;
+let player, 
+     night = false;
 
 function bindSlideToggle(trigger, boxBody, content, openClass){
     let button = {
@@ -25,9 +32,49 @@ function bindSlideToggle(trigger, boxBody, content, openClass){
         box.classList.remove(openClass);
       }
         
-    }, false);
+    });
 
 };
+
+function switchMode(){
+    if(night === false){
+        document.body.classList.add('night');
+        night = true;
+        svg.forEach( item => {
+            item.style.stroke = "#fff";
+        });
+        descr.forEach( item => {
+            item.style.color = "#fff";
+        });
+        views.forEach( item => {
+            item.style.color = "#fff";
+        });
+
+        nightMode.style.color = "#fff";
+
+        logo.src = "../logo/youtube_night.svg";
+    } else{
+        document.body.classList.remove('night');
+        night = false;
+        svg.forEach( item => {
+            item.style.stroke = "#000";
+        });
+        descr.forEach( item => {
+            item.style.color = "#000";
+        });
+        views.forEach( item => {
+            item.style.color = "#000";
+        });
+
+        nightMode.style.color = "#000";
+
+        logo.src = "/logo/youtube.svg";
+
+    }
+
+};
+
+switcher.addEventListener('change', switchMode);
 
 bindSlideToggle('.hamburger','[data-slide="nav"]','.header__menu','slide-active');
 
