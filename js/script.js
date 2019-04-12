@@ -109,12 +109,19 @@ more.addEventListener('click', () => {
         `
 
         videosWrapper.appendChild(card);
-        setTimeout(() =>{
+        setTimeout(()=> {
             card.classList.remove('videos__item-active');
         },10);
-        
+
+        bindNewModal(card);
+
     }
+
+    sliseTitle(".videos__item-descr", 100);
+    
 });
+
+
 
 
 function sliseTitle(selector, count){
@@ -131,6 +138,40 @@ function sliseTitle(selector, count){
 };
 
 sliseTitle(".videos__item-descr", 100);
+
+
+function openModal(){
+    modal.style.display = "block";
+}
+
+function closeModal(){
+    modal.style.display = "none";
+}
+
+function bindModal(cards){
+    cards.forEach( item => {
+        item.addEventListener('click',(e) => {
+            e.preventDefault();
+            openModal();
+        });
+    });
+
+}
+
+bindModal(videos);
+
+function bindNewModal(cards){
+    cards.addEventListener('click',(e) => {
+        e.preventDefault();
+        openModal();
+    });
+}
+
+modal.addEventListener('click', (e)=> {
+    if( !e.target.classList.contains('modal__body') ){
+        closeModal();
+    }
+});
 
 
 
