@@ -6,8 +6,12 @@ const switcher = document.querySelector('#cbx'),
       videosDescr = document.querySelectorAll('.videos__item-descr'),
       views = document.querySelectorAll('.videos__item-views'),
       nightMode = document.querySelector('.header__item-descr'),
-      logo = document.querySelector('.logo > img');
+      logo = document.querySelector('.logo > img'),
+      searchInf = document.querySelector('.search'),
+      searchInput =  document.querySelector('.search__input');
+const videosWrapper = document.querySelector('.videos__wrapper');
       
+
 
 let player, 
      night = false;
@@ -136,12 +140,12 @@ function start(){
     }).then( function(){
         return gapi.client.youtube.playlistItems.list({
             "part": "snippet,contentDetails",
-            "maxResults": '9',
+            "maxResults": '10',
             "playlistId": "FL7-YMmnc0ppcWmio8t1WdcA"
         });
     }).then(function(response){
         console.log(response.result);
-        const videosWrapper = document.querySelector('.videos__wrapper');
+        
         response.result.items.forEach( item => {
         let card = document.createElement('a');
 
@@ -181,6 +185,65 @@ function start(){
 more.addEventListener('click', () =>{
     more.remove();
     gapi.load('client',start);
+});
+
+
+function search(target){
+    gapi.client.init({
+        'apiKey': 'AIzaSyA8Lt66YF-fjXn53xOE4HdG3Bkjo-sBu28',
+        'discoveryDocs': ["https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest"]
+    }).then(function(){
+        return gapi.client.youtube.search.list({
+            'maxResults':'50',
+            'part':'snippet',
+            'q': `${target}`,
+            'type':''
+        });
+    }).then(function(response){
+        console.log(response.result);
+        while( videosWrapper.innerHTML != ''){
+            videosWrapper.innerHTML = '';
+        }
+        
+        response.result.items.forEach( item => {
+            let card = document.createElement('a');
+    
+            card.classList.add('videos__item', 'videos__item-active');
+            card.setAttribute('data-url', item.id.videoId);
+            card.innerHTML = `
+                <img src="${item.snippet.thumbnails.high.url}" alt="thumb">
+                <div class="videos__item-descr">
+                    ${item.snippet.title}
+                </div>
+                <div class="videos__item-views">
+                    2.7 тыс просмотр
+                </div>
+            `
+    
+            videosWrapper.appendChild(card);
+            setTimeout(()=> {
+                card.classList.remove('videos__item-active');
+            },10);
+    
+            if( night === true){
+                card.querySelector(".videos__item-descr").style.color = "#fff";
+                card.querySelector(".videos__item-views").style.color = "#fff";
+            } 
+    
+            });
+    
+            sliseTitle(".videos__item-descr",100);
+            bindModal(document.querySelectorAll('.videos__item'));
+    }).catch( e =>{
+        console.log(e);
+    })
+}
+
+searchInf.addEventListener('submit', (e) =>{
+    e.preventDefault();
+    gapi.load('client', () =>{
+        search(searchInput.value);
+    });
 });
 
 
@@ -224,7 +287,7 @@ function bindModal(cards){
 
 }
 
-bindModal(videos);
+
 
 function bindNewModal(cards){
     cards.addEventListener('click',(e) => {
@@ -265,7 +328,7 @@ function creatVideo(){
             videoId: 'M7lc1UVf-VE'
       });
 
-     },300);
+     },1500);
 
      
 };
