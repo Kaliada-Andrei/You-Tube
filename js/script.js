@@ -83,55 +83,6 @@ switcher.addEventListener('change', switchMode);
 bindSlideToggle('.hamburger','[data-slide="nav"]','.header__menu','slide-active');
 
 
-// const data = [
-//     ['img/thumb_3.webp', 'img/thumb_4.webp', 'img/thumb_5.webp'],
-//     ['#3 Верстка на flexbox CSS | Блок преимущества и галерея | Марафон верстки | Артем Исламов',
-//        '#2 Установка spikmi и работа с ветками на Github | Марафон вёрстки Урок 2',
-//        '#1 Верстка реального заказа landing page | Марафон верстки | Артем Исламов'],
-//     ['3,6 тыс. просмотров', '4,2 тыс. просмотров', '28 тыс. просмотров'],
-//     ['X9SmcY3lM-U', '7BvHoh0BrMw', 'mC8JW_aG2EM']
-//   ];
-  
-  
-  
-// more.addEventListener('click', () => {
-//     const videosWrapper = document.querySelector('.videos__wrapper');
-//     more.remove();
-
-//     for(let i = 0; i<data[0].length; i++){
-//         let card = document.createElement('a');
-//         card.classList.add('videos__item', 'videos__item-active');
-//         card.setAttribute('data-url', data[3][i]);
-//         card.innerHTML = `
-//             <img src="${data[0][i]}" alt="thumb">
-//             <div class="videos__item-descr">
-//                 ${data[1][i]}
-//             </div>
-//             <div class="videos__item-views">
-//                 ${data[2][i]}
-//             </div>
-//         `
-
-//         videosWrapper.appendChild(card);
-//         setTimeout(()=> {
-//             card.classList.remove('videos__item-active');
-//         },10);
-
-//         if( night === true){
-//             card.querySelector(".videos__item-descr").style.color = "#fff";
-//             card.querySelector(".videos__item-views").style.color = "#fff";
-//         } 
-
-//         bindNewModal(card);
-
-//     }
-
-//     sliseTitle(".videos__item-descr", 100);
-   
-    
-// });
-
-
 
 function start(){
     gapi.client.init({
@@ -141,12 +92,12 @@ function start(){
         return gapi.client.youtube.playlistItems.list({
             "part": "snippet,contentDetails",
             "maxResults": '10',
-            "playlistId": "FL7-YMmnc0ppcWmio8t1WdcA"
+            "playlistId": "PL1D946ACB21752C0E"
         });
     }).then(function(response){
         console.log(response.result);
         
-        response.result.items.forEach( item => {
+     response.result.items.forEach( item => {
         let card = document.createElement('a');
 
         card.classList.add('videos__item', 'videos__item-active');
@@ -201,8 +152,8 @@ function search(target){
         });
     }).then(function(response){
         console.log(response.result);
-        while( videosWrapper.innerHTML != ''){
-            videosWrapper.innerHTML = '';
+        while( videosWrapper.firstChild){
+            videosWrapper.removeChild(videosWrapper.firstChild);
         }
         
         response.result.items.forEach( item => {
@@ -244,6 +195,7 @@ searchInf.addEventListener('submit', (e) =>{
     gapi.load('client', () =>{
         search(searchInput.value);
     });
+    searchInput.value = '';
 });
 
 
